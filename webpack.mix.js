@@ -15,7 +15,12 @@ mix.js('resources/js/app.js', 'public/js')
     .postCss('resources/css/app.css', 'public/css', [
         require('postcss-import'),
         require('tailwindcss'),
-    ]);
+    ])
+    .disableNotifications()
+    .browserSync({
+        open: false,
+        notify: false
+    });
 
 if (mix.inProduction()) {
     mix.version();
