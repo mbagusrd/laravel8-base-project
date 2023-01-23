@@ -17,6 +17,36 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::middleware(['guest'])->group(function () {
+    Route::prefix('admin')->group(function () {
+        Route::get('login', function () {
+            return view('admin.login');
+        })->name('admin.login');
+    });
+});
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+
+    Route::prefix('admin')->group(function () {
+        Route::get('/', function () {
+            return view('admin.home');
+        })->name('admin.home');
+
+        Route::prefix('setting')->group(function () {
+            Route::get('user', function () {
+                return 'Setting User';
+            })->name('setting.user');
+
+            Route::get('permission', function () {
+                return 'Setting Permission';
+            })->name('setting.permission');
+
+            Route::get('role', function () {
+                return 'Setting Role';
+            })->name('setting.role');
+        });
+    });
+});
