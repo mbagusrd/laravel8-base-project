@@ -33,9 +33,9 @@
                     <thead>
                         <tr>
                             <td class="w-52">Action</td>
-                            <td>Nama</td>
-                            <td>Email</td>
-                            <td>Role</td>
+                            <td>Name</td>
+                            <td>Display Name</td>
+                            <td>Description</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -49,11 +49,10 @@
                                         <x-button class="btn-warning btn-sm"
                                             wire:click="act_edit('{{ $item->id }}')">
                                             Edit</x-button>
-
                                     </td>
                                     <td>{{ $item->name }}</td>
-                                    <td>{{ $item->email }}</td>
-                                    <td>{{ $item->roles()->first()->display_name ?? 'Tidak ada role' }}</td>
+                                    <td>{{ $item->display_name }}</td>
+                                    <td>{{ $item->description }}</td>
                                 </tr>
                             @endforeach
                         @else

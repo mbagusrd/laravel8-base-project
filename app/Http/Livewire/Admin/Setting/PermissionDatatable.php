@@ -2,11 +2,11 @@
 
 namespace App\Http\Livewire\Admin\Setting;
 
-use App\Models\User;
+use App\Models\Permission;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class UserDatatable extends Component
+class PermissionDatatable extends Component
 {
     use WithPagination;
 
@@ -20,7 +20,7 @@ class UserDatatable extends Component
     {
         $data_tables = $this->load_data();
 
-        return view('livewire.admin.setting.user-datatable', compact('data_tables'));
+        return view('livewire.admin.setting.permission-datatable', compact('data_tables'));
     }
 
     public function mount()
@@ -43,23 +43,23 @@ class UserDatatable extends Component
     {
         $this->show = false;
 
-        $this->emitTo('admin.setting.user-form', 'change_crud_mode', 'create');
+        $this->emitTo('admin.setting.permission-form', 'change_crud_mode', 'create');
     }
 
     public function act_edit($id)
     {
         $this->show = false;
 
-        $this->emitTo('admin.setting.user-form', 'change_crud_mode', 'update', $id);
+        $this->emitTo('admin.setting.permission-form', 'change_crud_mode', 'update', $id);
     }
 
     private function load_data($modesql = false)
     {
         $cari = ($this->cari != '') ? str_replace(" ", "%", $this->cari) : '';
 
-        $fields = ['name', 'email'];
+        $fields = ['name', 'display_name', 'description'];
 
-        $data_tables = User::latest();
+        $data_tables = Permission::latest();
 
         if ($cari != '') {
             $data_tables->where(
@@ -94,9 +94,11 @@ class UserDatatable extends Component
 
     public function delete_data($id)
     {
-        $data = User::find($id);
+        $data = Permission::find($id);
 
-        $data->doSoftDelete();
+        $data->delete();
+
+        // $data->doSoftDelete();
 
         $this->check_last_page();
 

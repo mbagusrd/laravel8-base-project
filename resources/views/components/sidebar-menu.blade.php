@@ -10,12 +10,12 @@
                     'route' => 'setting.user',
                 ],
                 [
-                    'name' => 'Permission',
-                    'route' => 'setting.permission',
-                ],
-                [
                     'name' => 'Role',
                     'route' => 'setting.role',
+                ],
+                [
+                    'name' => 'Permission',
+                    'route' => 'setting.permission',
                 ],
             ],
         ],

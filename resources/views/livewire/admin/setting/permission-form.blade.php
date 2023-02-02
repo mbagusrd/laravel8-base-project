@@ -20,7 +20,7 @@
                 </div>
                 <div class="grid gap-4">
                     <div>
-                        <label for="">Nama</label>
+                        <label for="">Name *</label>
                         <x-input wire:model.defer='input_name'>
                             @slot('label_bawah')
                                 @error('input_name')
@@ -30,51 +30,24 @@
                         </x-input>
                     </div>
                     <div>
-                        <label for="">Email</label>
-                        <x-input wire:model.defer='input_email'>
+                        <label for="">Display Name</label>
+                        <x-input wire:model.defer='input_display_name'>
                             @slot('label_bawah')
-                                @error('input_email')
+                                @error('input_display_name')
                                     <div class="text-red-500">{{ $message }}</div>
                                 @enderror
                             @endslot
                         </x-input>
                     </div>
                     <div>
-                        <label for="">Password</label>
-                        @if ($crud_mode == 'update')
-                            <div class="text-sm">(kosongkan jika tidak ingin mengubah password)</div>
-                        @endif
-                        <x-input wire:model.defer='input_password'>
+                        <label for="">Description</label>
+                        <x-input wire:model.defer='input_description'>
                             @slot('label_bawah')
-                                @error('input_password')
+                                @error('input_description')
                                     <div class="text-red-500">{{ $message }}</div>
                                 @enderror
                             @endslot
                         </x-input>
-                    </div>
-                    <div>
-                        <label for="">Password Konfirmasi</label>
-                        <x-input wire:model.defer='input_password_confirm'>
-                            @slot('label_bawah')
-                                @error('input_password_confirm')
-                                    <div class="text-red-500">{{ $message }}</div>
-                                @enderror
-                            @endslot
-                        </x-input>
-                    </div>
-                    <div>
-                        <label for="">Role</label>
-                        <x-select wire:model.defer='input_role'>
-                            <option value="">Tidak ada role</option>
-                            @foreach ($role_list as $role)
-                                <option value="{{ $role->id }}">{{ $role->display_name }}</option>
-                            @endforeach
-                            @slot('label_bawah')
-                                @error('input_role')
-                                    <div class="text-red-500">{{ $message }}</div>
-                                @enderror
-                            @endslot
-                        </x-select>
                     </div>
                 </div>
                 <div>

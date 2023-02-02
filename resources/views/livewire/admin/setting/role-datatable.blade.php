@@ -32,28 +32,27 @@
                 <table class="table w-full mb-3 table-zebra table-compact">
                     <thead>
                         <tr>
-                            <td class="w-52">Action</td>
-                            <td>Nama</td>
-                            <td>Email</td>
-                            <td>Role</td>
+                            <td>Action</td>
+                            <td>Name</td>
+                            <td>Display Name</td>
+                            <td>Description</td>
                         </tr>
                     </thead>
                     <tbody>
                         @if (count($data_tables) > 0)
                             @foreach ($data_tables as $item)
                                 <tr>
-                                    <td>
+                                    <td class="w-auto">
                                         <x-button class="btn-error btn-sm"
                                             onclick="return confirm('Anda ingin hapus data ini?') || event.stopImmediatePropagation()"
                                             wire:click="delete_data('{{ $item->id }}')">Hapus</x-button>
                                         <x-button class="btn-warning btn-sm"
-                                            wire:click="act_edit('{{ $item->id }}')">
+                                            wire:click="act_edit('{{ $item->id }}', 'update')">
                                             Edit</x-button>
-
                                     </td>
                                     <td>{{ $item->name }}</td>
-                                    <td>{{ $item->email }}</td>
-                                    <td>{{ $item->roles()->first()->display_name ?? 'Tidak ada role' }}</td>
+                                    <td>{{ $item->display_name }}</td>
+                                    <td>{{ $item->description }}</td>
                                 </tr>
                             @endforeach
                         @else
@@ -70,6 +69,5 @@
                 </div>
             @endif
         </div>
-
     </x-card>
 </div>

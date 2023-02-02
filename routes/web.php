@@ -37,17 +37,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
         Route::prefix('setting')->group(function () {
             Route::get('user', function () {
-                // return 'Setting User';
                 return view('admin.setting.user');
             })->name('setting.user');
 
-            Route::get('permission', function () {
-                return 'Setting Permission';
-            })->name('setting.permission');
-
             Route::get('role', function () {
-                return 'Setting Role';
+                return view('admin.setting.role');
             })->name('setting.role');
+
+            Route::get('permission', function () {
+                return view('admin.setting.permission');
+            })->name('setting.permission');
         });
     });
 });
