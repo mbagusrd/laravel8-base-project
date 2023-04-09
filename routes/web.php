@@ -32,20 +32,20 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::prefix('admin')->group(function () {
         Route::get('/', function () {
-            return view('admin.home');
+            return view('pages.admin.home');
         })->name('admin.home');
 
         Route::prefix('setting')->group(function () {
             Route::get('user', function () {
-                return view('admin.setting.user');
+                return view('pages.admin.setting.user');
             })->name('setting.user');
 
             Route::get('role', function () {
-                return view('admin.setting.role');
+                return view('pages.admin.setting.role');
             })->name('setting.role');
 
             Route::get('permission', function () {
-                return view('admin.setting.permission');
+                return view('pages.admin.setting.permission');
             })->name('setting.permission');
         });
     });
