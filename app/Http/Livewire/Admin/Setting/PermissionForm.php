@@ -63,43 +63,62 @@ class PermissionForm extends Component
         $this->input_description = '';
     }
 
-    public function tambah_data()
+    public function update_slug()
     {
-        $this->validate([
-            'input_name' => 'required',
-            'input_display_name' => '',
-            'input_description' => '',
-        ]);
+        $this->resetErrorBag();
 
-        $data = Permission::create([
-            'name' => strtolower(Str::slug($this->input_name)),
-            'display_name' => $this->input_display_name,
-            'description' => $this->input_description,
-        ]);
-
-        session()->flash('alert-success', 'Data berhasil ditambah');
-
-        $this->clear_input();
+        $this->input_name = strtolower(Str::slug($this->input_display_name));
     }
 
-    public function edit_data()
+    public function validateInput()
     {
         $this->validate([
-            'input_name' => 'required',
-            'input_display_name' => '',
+            'input_display_name' => 'required',
+            'input_name' => '',
             'input_description' => '',
         ]);
+    }
 
-        $data = Permission::find($this->input_id);
+    public function create_data()
+    {
+        $this->validateInput();
+        $check = Permission::where('name', $this->input_name)->get();
 
-        $data->name = strtolower(Str::slug($this->input_name));
-        $data->display_name = $this->input_display_name;
-        $data->description = $this->input_description;
+        if (sizeof($check) > 0) {
+            $this->addError('input_name', 'nama Permission sudah ada');
+        } else {
+            $data = Permission::create([
+                'display_name' => $this->input_display_name,
+                'name' => $this->input_name,
+                'description' => $this->input_description,
+            ]);
 
-        $data->save();
+            session()->flash('alert-success', 'Data berhasil ditambah');
 
-        $this->act_kembali("success", "Data berhasil diubah");
+            $this->clear_input();
+        }
+    }
 
-        $this->change_crud_mode('read');
+    public function update_data()
+    {
+        $this->validateInput();
+
+        $check = Permission::where('name', $this->input_name)->where('id', '!=', $this->input_id)->get();
+
+        if (sizeof($check) > 0) {
+            $this->addError('input_name', 'nama Permission sudah ada');
+        } else {
+            $data = Permission::find($this->input_id);
+
+            $data->display_name = $this->input_display_name;
+            $data->name = $this->input_name;
+            $data->description = $this->input_description;
+
+            $data->save();
+
+            $this->act_kembali("success", "Data berhasil diubah");
+
+            $this->change_crud_mode('read');
+        }
     }
 }

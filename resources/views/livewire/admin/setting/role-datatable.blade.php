@@ -33,8 +33,8 @@
                     <thead>
                         <tr>
                             <td>Action</td>
-                            <td>Name</td>
                             <td>Display Name</td>
+                            <td>Name</td>
                             <td>Description</td>
                         </tr>
                     </thead>
@@ -50,8 +50,8 @@
                                             wire:click="act_edit('{{ $item->id }}', 'update')">
                                             Edit</x-button>
                                     </td>
-                                    <td>{{ $item->name }}</td>
                                     <td>{{ $item->display_name }}</td>
+                                    <td>{{ $item->name }}</td>
                                     <td>{{ $item->description }}</td>
                                 </tr>
                             @endforeach

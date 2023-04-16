@@ -57,7 +57,7 @@ class RoleForm extends Component
                         ->with('permissions:id')
                         ->findOrFail($id);
 
-                    $permissions = Permission::all(['id', 'name', 'display_name'])
+                    $this->array_permissions = Permission::all(['id', 'name', 'display_name'])
                         ->map(function ($permission) use ($role) {
                             $permission->assigned = $role->permissions
                                 ->pluck('id')
@@ -66,11 +66,11 @@ class RoleForm extends Component
                             return $permission;
                         });
 
-                    $this->array_permissions = [];
+                    // $this->array_permissions = [];
 
-                    foreach ($permissions as $key => $value) {
-                        $this->array_permissions[] = $value;
-                    }
+                    // foreach ($permissions as $key => $value) {
+                    //     $this->array_permissions[] = $value;
+                    // }
                 }
             }
         } else {
@@ -104,53 +104,73 @@ class RoleForm extends Component
         }, $this->array_permissions);
     }
 
-    public function tambah_data()
+    public function update_slug()
     {
-        $this->validate([
-            'input_name' => 'required',
-            'input_display_name' => '',
-            'input_description' => '',
-        ]);
+        $this->resetErrorBag();
 
-        $data = Role::create([
-            'name' => strtolower(Str::slug($this->input_name)),
-            'display_name' => $this->input_display_name,
-            'description' => $this->input_description,
-        ]);
-
-        session()->flash('alert-success', 'Data berhasil ditambah');
-
-        $this->clear_input();
+        $this->input_name = strtolower(Str::slug($this->input_display_name));
     }
 
-    public function edit_data()
+    public function validateInput()
     {
         $this->validate([
-            'input_name' => 'required',
-            'input_display_name' => '',
+            'input_display_name' => 'required',
+            'input_name' => '',
             'input_description' => '',
         ]);
+    }
 
-        $data = Role::find($this->input_id);
+    public function create_data()
+    {
+        $this->validateInput();
 
-        $data->name = strtolower(Str::slug($this->input_name));
-        $data->display_name = $this->input_display_name;
-        $data->description = $this->input_description;
+        $check = Role::where('name', $this->input_name)->get();
 
-        $data->save();
+        if (sizeof($check) > 0) {
+            $this->addError('input_name', 'nama Role sudah ada');
+        } else {
+            $data = Role::create([
+                'display_name' => $this->input_display_name,
+                'name' => $this->input_name,
+                'description' => $this->input_description,
+            ]);
 
-        $assignedPermission = [];
+            session()->flash('alert-success', 'Data berhasil ditambah');
 
-        foreach ($this->array_permissions as $key => $value) {
-            if ($value['assigned']) {
-                $assignedPermission[] = $value['id'];
-            }
+            $this->clear_input();
         }
+    }
 
-        $data->syncPermissions($assignedPermission);
+    public function update_data()
+    {
+        $this->validateInput();
 
-        $this->change_crud_mode('read');
+        $check = Role::where('name', $this->input_name)->where('id', '!=', $this->input_id)->get();
 
-        $this->act_kembali("success", "Data berhasil diubah");
+        if (sizeof($check) > 0) {
+            $this->addError('input_name', 'nama Role sudah ada');
+        } else {
+            $data = Role::find($this->input_id);
+
+            $data->display_name = $this->input_display_name;
+            $data->name = $this->input_name;
+            $data->description = $this->input_description;
+
+            $data->save();
+
+            $assignedPermission = [];
+
+            foreach ($this->array_permissions as $key => $value) {
+                if ($value['assigned']) {
+                    $assignedPermission[] = $value['id'];
+                }
+            }
+
+            $data->syncPermissions($assignedPermission);
+
+            $this->change_crud_mode('read');
+
+            $this->act_kembali("success", "Data berhasil diubah");
+        }
     }
 }

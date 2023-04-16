@@ -20,20 +20,20 @@
                 </div>
                 <div class="grid gap-4">
                     <div>
-                        <label for="">Name *</label>
-                        <x-input wire:model.defer='input_name'>
+                        <label for="">Display Name*</label>
+                        <x-input wire:model.defer='input_display_name' wire:keydown.debounce.500ms='update_slug'>
                             @slot('label_bawah')
-                                @error('input_name')
+                                @error('input_display_name')
                                     <div class="text-red-500">{{ $message }}</div>
                                 @enderror
                             @endslot
                         </x-input>
                     </div>
                     <div>
-                        <label for="">Display Name</label>
-                        <x-input wire:model.defer='input_display_name'>
+                        <label for="">Name </label>
+                        <x-input wire:model.defer='input_name' class="input-disabled" readonly>
                             @slot('label_bawah')
-                                @error('input_display_name')
+                                @error('input_name')
                                     <div class="text-red-500">{{ $message }}</div>
                                 @enderror
                             @endslot
@@ -53,7 +53,8 @@
                 @if ($crud_mode == 'update')
                     <div>
                         <div class="text-lg">
-                            Permissions (<a class="link" wire:click="select_all_permissions">Select All</a> | <a class="link" wire:click="clear_all_permissions">Clear All</a>)
+                            Permissions (<a class="link" wire:click="select_all_permissions">Select All</a> | <a
+                                class="link" wire:click="clear_all_permissions">Clear All</a>)
                         </div>
                         <div class="grid grid-cols-2 gap-3">
                             @if (count($array_permissions) > 0)
@@ -80,11 +81,11 @@
                     <div wire:loading.remove>
                         @if ($crud_mode == 'create')
                             <div>
-                                <x-button class="btn-primary" wire:click="tambah_data">Tambah</x-button>
+                                <x-button class="btn-primary" wire:click="create_data">Tambah</x-button>
                             </div>
                         @elseif ($crud_mode == 'update')
                             <div>
-                                <x-button class="btn-warning" wire:click="edit_data">Ubah</x-button>
+                                <x-button class="btn-warning" wire:click="update_data">Ubah</x-button>
                             </div>
                         @endif
                     </div>
