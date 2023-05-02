@@ -1,0 +1,13 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+.btn {
+    @apply rounded-full;
+}
+
+.btn-success,
+.btn-error,
+.btn-primary {
+    @apply text-white;
+}
