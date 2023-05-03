@@ -32,7 +32,7 @@
                 <table class="table w-full mb-3 table-zebra table-compact">
                     <thead>
                         <tr>
-                            <td class="w-52">Action</td>
+                            <td>Action</td>
                             <td>Nama</td>
                             <td>Email</td>
                             <td>Role</td>
